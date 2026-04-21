@@ -14,7 +14,8 @@ The objective of this project is to design and implement an IoT system that can 
 
   
 ### System Architecture
-  
+<img width="1687" height="840" alt="image" src="https://github.com/user-attachments/assets/67fe954a-1625-483f-9552-87673ecd0e9d" />
+
 ### GUI (image)
 <img width="591" height="342" alt="System GUI" src="https://github.com/user-attachments/assets/09c88f16-129e-43bc-b8e4-8ca5511abc84" />
 
