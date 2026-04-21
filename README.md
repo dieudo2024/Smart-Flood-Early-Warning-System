@@ -10,7 +10,8 @@ The objective of this project is to design and implement an IoT system that can 
 ### Features
  
 ### HW Components
-<img width="1177" height="693" alt="Hardware components list" src="https://github.com/user-attachments/assets/614acd40-6474-44c1-8d06-2320351515aa" />
+<img width="1177" height="698" alt="Hardware components list" src="https://github.com/user-attachments/assets/d0baa5b3-da18-47f3-823d-5269020475e2" />
+
   
 ### System Architecture
   
