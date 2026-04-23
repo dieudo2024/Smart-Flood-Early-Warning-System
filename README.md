@@ -8,8 +8,7 @@ The development of Internet of Things (IoT) offers a proactive approach to this 
 The objective of this project is to design and implement an IoT system that can monitor water levels and temperature to evaluate potential flood risks. The system will provide real-time alerts to users when a potentially dangerous condition is detected. In addition, it will automatically activate a motorized flood gate to prevent of limit water intrusion. By combining early detection with automated response, the system aims to minimize damage, improve safety, and enhance preparedness in flood-prone areas.
  
 ### HW Components
-<img width="1177" height="698" alt="Hardware components list" src="https://github.com/user-attachments/assets/d0baa5b3-da18-47f3-823d-5269020475e2" />
-
+<img width="1567" height="930" alt="Hardware components list" src="https://github.com/user-attachments/assets/624a177d-8cb6-4798-a987-44fc095668bf" />
   
 ### System Architecture
 <img width="1687" height="840" alt="image" src="https://github.com/user-attachments/assets/67fe954a-1625-483f-9552-87673ecd0e9d" />
