@@ -6,6 +6,9 @@ from gpiozero import PWMLED, LED, DistanceSensor, Device
 from gpiozero.exc import BadPinFactory
 from gpiozero.pins.mock import MockFactory
 from AWSIoTPythonSDK.MQTTLib import AWSIoTMQTTClient
+from enum import Enum
+from gpiozero import LED, Buzzer
+
 import config
 import json
 import time
@@ -14,6 +17,33 @@ import warnings
 
 import os
 
+# Hardware setup
+
+green_led = LED(24)     # Normal state
+yellow_led = LED(18)    # Warning state
+red_led = LED(23)       # Flood risk state
+
+buzzer = Buzzer(17)     # Buzzer for warning and flood risk states
+
+
+# State definitions
+class State(Enum):
+    NORMAL = "NORMAL"
+    WARNING = "WARNING"
+    FLOOD_RISK = "FLOOD_RISK"
+
+# Thresholds (in cm)
+W_warn = 5.0    # Warning level
+W_crit = 10.0   # Critical level (flood risk)
+
+# State determination based on water level
+def determine_state(water_level):
+    if water_level < W_warn:
+        return State.NORMAL
+    elif water_level < W_crit:
+        return State.WARNING
+    else:
+        return State.FLOOD_RISK
 
 try: # import of the rotary controller for setup if available
     from input import rotary_controller as rotary
@@ -89,11 +119,32 @@ def loop():
         else:
             print(f"Temperature - Celsius: {tmp:.2f} °C - Fahrenheit: {(tmp * 9/5) + 32:.2f} °F") 
             ######################################################################
+            
+            # Determine the current state based on the water level
+            state = determine_state(distance)
+
+            # Reset all outputs before applying the new state
+            green_led.off()
+            yellow_led.off()
+            red_led.off()
+            buzzer.off()
+
+            if state == State.NORMAL:
+                green_led.on()
+            
+            elif state == State.WARNING:
+                yellow_led.on()
+                buzzer.beep(on_time=0.1, off_time=2, background=True) # Short beep every 2 seconds
+
+            elif state == State.FLOOD_RISK:
+                red_led.on()
+                buzzer.on() # Continuous alert
+            
             payload=json.dumps({
                                 "device_id": "team_01",
                                 "water_level": distance,
                                 "temperature": tmp,
-                                "state": "WARNING"
+                                "state": state
                                 })
             published = myMQTTClient.publish(publish_topic, payload, 1)
             if published:
