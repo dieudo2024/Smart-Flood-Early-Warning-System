@@ -13,7 +13,7 @@ import config
 import json
 import time
 from datetime import datetime
-
+from input import fan
 _debug = True
 
 # user specified callback function
@@ -65,41 +65,55 @@ def update_water():
         _w1.waterLevelLabel.config(text="-- cm")
     else:
         _w1.waterLevelLabel.config(text=f"{water:.2f} cm")
+        # state = determine_state(water)
+        # fan.set_on(state == "FLOOD_RISK")
+
     root.after(5000, update_water)
 
 def main(*args):
     global root, _top1, _w1
-
-    root = tk.Tk()
-    root.protocol('WM_DELETE_WINDOW', root.destroy)
-
-    _top1 = root
-    _w1 = Flood_Monitoring_System_GUI.Toplevel1(_top1)
     
-    update_temperature()
-    update_water()
-    update_threshold()
-    publish_data() # publishes just once for now
-    root.mainloop()
-    
+    try:
+        root = tk.Tk()
+        root.protocol('WM_DELETE_WINDOW', root.destroy)
+
+        _top1 = root
+        _w1 = Flood_Monitoring_System_GUI.Toplevel1(_top1)
+
+        fan.init()  # Initializing the fan
+        update_temperature()    # Start the temperature update loop
+        update_water()       # Start the water level update loop
+        update_threshold()      # Start the threshold update loop
+        publish_data() # publishes just once for now
+        root.mainloop() # Start the GUI event loop
+    except Exception as e:
+        print(f"An error occurred from the main function in GUI Support: {e}")
 
 def publish_data():
-        temp_c = read_temp() # Reading the temperature from the sensor
-        distance = read_water_level() # Reading the water level from the sensor
+        try:
+            temp_c = read_temp() # Reading the temperature from the sensor
+            distance = read_water_level() # Reading the water level from the sensor
 
-        payload=json.dumps({
-                            "device_id": "team_01",
-                            "water_level": distance,
-                            "temperature": temp_c,
-                            "state": "WARNING"
-                            })
-        
-        published = myMQTTClient.publish(publish_topic, payload, 1)
-        if published:
-            print(f"Published to {publish_topic}: {payload}")
-        else:
-            print(f"Publish failed for topic {publish_topic}")
-        time.sleep(5)  # To send a message every 5 seconds. 
+            payload=json.dumps({
+                                "device_id": "team_01",
+                                "water_level": distance,
+                                "temperature": temp_c,
+                                "state": "WARNING"
+                                })
+            
+            published = myMQTTClient.publish(publish_topic, payload, 1)
+            if published:
+                print(f"Published to {publish_topic}: {payload}")
+            else:
+                print(f"Publish failed for topic {publish_topic}")
+            time.sleep(5)  # To send a message every 5 seconds. 
+        except Exception as e:
+            print(f"An error occurred while publishing data: {e}")
 
 if __name__ == '__main__':
-    main()
+    try:
+        main()
+    except KeyboardInterrupt:
+        print("\n Exiting the program!")   # Handle the keyboard interrupt (Ctrl+C) to exit the program gracefully
+    except Exception as e:
+        print(f"An error occurred from the main function in GUI Support: {e}")
