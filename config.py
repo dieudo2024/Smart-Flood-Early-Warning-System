@@ -2,7 +2,7 @@ import os
 
 # AWS general configuration
 AWS_PORT = 8883
-AWS_HOST = 'key'
+AWS_HOST = 'key'    # Replace with your AWS IoT endpoint, which can be found in the AWS IoT Core console under "Settings" -> "Custom endpoint". It should look something like "abcdefgh12345-ats.iot.region.amazonaws.com".
 
 AWS_ROOT_CA = os.path.expanduser('~/certs/aws_root.pem')
 AWS_CLIENT_CERT = os.path.expanduser('~/certs/aws_client.crt')
