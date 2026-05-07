@@ -17,7 +17,6 @@ def get_threshold():
     rotor.when_rotated_clockwise = increase
     rotor.when_rotated_counter_clockwise = decrease
     set_threshold(base_threshold)
-    print(f"Initial threshold set to: {base_threshold:.2f} cm")
     return base_threshold
 
 def set_threshold(value):

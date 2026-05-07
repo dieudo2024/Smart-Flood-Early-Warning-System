@@ -4,9 +4,15 @@ _debug = True
 
 SENSOR_HEIGHT_CM = 30.0
 
+class MyDistanceSensor(DistanceSensor):
+    def _read(self):
+        try:
+            return super()._read()
+        except Exception:
+            return self.max_distance
 
 try:
-    _dist_sensor = DistanceSensor(echo=5, trigger=22)
+    _dist_sensor = MyDistanceSensor(echo=5, trigger=22, queue_len=1, partial=True)
     _dist_available = True
     print("[DISTANCE] Sensor ready on echo=5, trigger=22.")
 except Exception as e:
