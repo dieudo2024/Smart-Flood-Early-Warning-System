@@ -20,7 +20,7 @@ The objective of this project is to design and implement an IoT system that can 
 1. Clone this repository onto your Raspberry Pi and navigate into the project folder.
 2. Connect all the hardware components as per the circuit diagram (Ultrasonic sensor, DS18B20 temperature sensor, LEDs, Buzzer, Buttons, and Fan).
 3. Install the required Python dependencies if not already installed.
-4. Launch the GUI by running the thermostat_support.py file.
+4. Launch the GUI by running the Flood_Monitoring_System_GUI_support.py file.
 5. Check GUI and verify that it shows: State, Water level, Temperature, Flood threshold, and Buttons.
 6. Test the functionality of the buttons (Silence the buzzer, Manually control fan). Optional, adjust the flood threshold using the rotary encoder.
 7. Simulate rising water levels to confirm that LEDs, the buzzer, and fan respond correctly according to the set states.
